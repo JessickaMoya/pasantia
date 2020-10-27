@@ -4,24 +4,26 @@ import { Typography } from 'antd'
 import { Row, Col } from 'antd';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 
 const { Title } = Typography;
-const Login = () => {
-    const [datos, setDatos] = useState({
-        email: '',
-        password: ''
-    })
-    const handleInputChange = (event) => {
-        setDatos({
-            ...datos,
-            [event.target.name] : event.target.value
-        })
+const initialState={
+    email: '',
+    password: '',
+  }
+  function reducer(state, {field, value}){
+    return {
+      ...state,
+      [field]: value
     }
+  }
+
+const Login = () => {
+    const [state,dispatch] = useReducer(reducer,initialState);
     const router = useRouter();
   
     const openNotificationLogin = () => {
-        console.log(datos)
+        console.log(state);
         notification.open({
         message: 'Notificación Login',
         description:
@@ -31,6 +33,16 @@ const Login = () => {
         },
         });
     };
+    const handleInputChange = (e) => {
+        dispatch({field: e.target.name, value: e.target.value})
+      }
+
+    useEffect(() => {
+        console.log(state);
+        return () => {
+            console.log("Se desmontó el componente login");
+        }
+    }, [])
     return (
         <Row>
             <Col span={12} offset={6}>
@@ -77,6 +89,11 @@ const Login = () => {
                         <a>registrate ahora!</a>
                     </Link>
                 </Form.Item>
+                <Form.Item>
+                    <Link href="/recordar-contrasena">
+                            <a>¿Olvidó su contraseña?</a>
+                        </Link>
+                    </Form.Item>
                 </Form>
             </Col>
         </Row>

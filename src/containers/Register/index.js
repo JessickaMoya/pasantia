@@ -3,37 +3,48 @@ import {useRouter} from 'next/router';
 import { UserOutlined, LockOutlined,MailOutlined } from '@ant-design/icons';
 import { Form,Button, Col, Input, Row, notification, InputNumber } from 'antd';
 import { Typography } from 'antd';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useReducer} from 'react';
 
 const { Title } = Typography;
-const Register = (props) => {
-    const [datos, setDatos] = useState({
-        name: '',
-        lastname: '',
-        age: '',
-        email: ''
-    })
-    const handleInputChange = (event) => {
-        setDatos({
-            ...datos,
-            [event.target.name] : event.target.value
-        })
+const initialState={
+    name: '',
+    lastname: '',
+    age: '',
+    email: ''
+}
+function reducer(state, {field, value}){
+    return {
+      ...state,
+      [field]: value
     }
+}
+const Register = (props) => {
+    const [state,dispatch] = useReducer(reducer,initialState);
+
     const router = useRouter();
     const goContainerLogin= () =>{
       router.push("/login");
     };
     const openNotificationRegister = () => {
-        console.log(datos)
+        console.log(state)
         notification.open({
           message: 'Notificación Registro',
           description:
-            'Usted se ha registrado',
+            `Se ha registrado al usuario ${state.name} ${state.lastname} de ${state.age} años de edad, con el correo ${state.email}`,
           onClick: () => {
             console.log('Notification Clicked!');
           },
         });
       };
+      const handleInputChange = (e) => {
+        dispatch({field: e.target.name, value: e.target.value})
+      }
+    useEffect(() => {
+      console.log(state);
+      return () => {
+          console.log("Se desmontó el componente register");
+      }
+    }, [])
     return(
         <Row>
             <Col span={12} offset={6}>
@@ -46,7 +57,8 @@ const Register = (props) => {
                         <Input name="lastname" onChange={handleInputChange} />    
                     </Form.Item>
                     <Form.Item label="Edad">
-                        <InputNumber min={1} max={100} defaultValue={1} name="age" onChange={handleInputChange} />
+                        {/* <InputNumber min={1} max={100} defaultValue={1} name="age" onChange={handleInputChange} /> */}
+                        <Input name="age" onChange={handleInputChange}/>
                     </Form.Item>
                     <Form.Item label="Correo Electrónico">
                         <Input prefix={<MailOutlined className="site-form-item-icon" />} name="email" onChange={handleInputChange} />
