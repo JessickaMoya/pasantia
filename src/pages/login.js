@@ -1,12 +1,12 @@
 import Ract from 'react';
-import Wrapper from '../containers/Wrapper';
+// import Wrapper from '../containers/Wrapper';
 import Login from '../containers/Login';
 
 const LoginPage = () => {
     return(
-        <Wrapper>
+        // <Wrapper>
             <Login />
-        </Wrapper>
+        // </Wrapper>
     )
 }
 

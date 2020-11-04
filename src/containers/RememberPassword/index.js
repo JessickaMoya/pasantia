@@ -1,4 +1,4 @@
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, Select } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Typography } from 'antd'
 import { Row, Col } from 'antd';
@@ -46,6 +46,7 @@ const RememberPassword = () => {
           console.log("Se desmontó el componente rememberpassword");
       }
     }, [])
+    
     return (
         <Row>
             <Col span={12} offset={6}>
@@ -54,12 +55,22 @@ const RememberPassword = () => {
                     <Form.Item label="Correo Electrónico">
                         <Input prefix={<MailOutlined className="site-form-item-icon" />} name="email" onChange={handleInputChange}/>
                     </Form.Item>
+                    <Form.Item label="Select">
+                     
+                      {/* <Select
+                        name="part_id"
+                        value={option.find(item => item.value === part_id)}
+                        onChange={this.changeHandler}
+                        options={option}
+                      /> */}
+                    </Form.Item>
                     <Form.Item>
                         <Button type="primary" onClick={openNotificationRemember} style={{width: "100%"}}>Enviar</Button>
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" onClick={goContainerLogin}>Regresar</Button>
                     </Form.Item>
+              
                 </Form>
             </Col>
         </Row>

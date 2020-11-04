@@ -10,7 +10,14 @@ const { Title } = Typography;
 const initialState={
     email: '',
     password: '',
+    societyId: 'fafc7359-0139-43d7-9d00-1828d90cc407'
   }
+const mook=
+{
+    email: 'admin@test.com',
+    password: 'Test1235',
+    societyId: 'fafc7359-0139-43d7-9d00-1828d90cc407'
+}
   function reducer(state, {field, value}){
     return {
       ...state,
@@ -21,8 +28,35 @@ const initialState={
 const Login = () => {
     const [state,dispatch] = useReducer(reducer,initialState);
     const router = useRouter();
+
+    
+    
   
     const openNotificationLogin = () => {
+         // POST request using fetch with error handling
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'React POST Request Example' })
+        };
+        fetch('https://dbcolegios.blockchainconsultora.com', requestOptions)
+            .then(async response => {
+                const data = await response.json();
+
+            // check for error response
+            if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+            }
+
+            // this.setState({ postId: data.id })
+        })
+        .catch(error => {
+            // this.setState({ errorMessage: error.toString() });
+            console.error('There was an error!', error);
+        });
+
         console.log(state);
         notification.open({
         message: 'Notificación Login',
@@ -89,11 +123,7 @@ const Login = () => {
                         <a>registrate ahora!</a>
                     </Link>
                 </Form.Item>
-                <Form.Item>
-                    <Link href="/recordar-contrasena">
-                            <a>¿Olvidó su contraseña?</a>
-                        </Link>
-                    </Form.Item>
+                
                 </Form>
             </Col>
         </Row>
